@@ -140,8 +140,8 @@ app.post("/api/extract-invoice", upload.single("image"), async (req, res) => {
       };
     } 
     // 2. Fallback to Gemini if Gemini Key is available
-    else if (process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY) {
-      const apiKey = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY;
+    else if (req.headers['x-gemini-key'] || process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY) {
+      const apiKey = req.headers['x-gemini-key'] || process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY;
       console.log(`Processing extraction via Gemini 2.5 Flash API...`);
 
       const fetchWithRetry = async (url, options, retries = 3, delay = 2000) => {
