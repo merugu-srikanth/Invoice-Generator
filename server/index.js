@@ -195,7 +195,18 @@ app.post("/api/extract-invoice", upload.single("image"), async (req, res) => {
 
       if (!response || !response.ok) {
         const errText = response ? await response.text() : "Network error";
-        throw new Error(`Gemini API Error: ${response ? response.status : "Failed"} - ${errText}`);
+        let message = errText;
+        try {
+          const parsedErr = JSON.parse(errText);
+          if (parsedErr?.error?.message) {
+            message = parsedErr.error.message;
+          }
+        } catch (_) {}
+
+        if (response && response.status === 429) {
+          throw new Error(`API Quota Exceeded (429): ${message}`);
+        }
+        throw new Error(`Gemini API Error (${response ? response.status : "Failed"}): ${message}`);
       }
 
       const result = await response.json();
