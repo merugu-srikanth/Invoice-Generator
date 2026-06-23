@@ -101,11 +101,6 @@ export default function App() {
   const [confirmDialog, setConfirmDialog] = useState<{ message: string; onConfirm: () => void } | null>(null);
   const [showPasswordPrompt, setShowPasswordPrompt] = useState<boolean>(false);
   const [passwordValue, setPasswordValue] = useState<string>('');
-  const [apiKey, setApiKey] = useState<string>(() => localStorage.getItem('sf_api_key') || '');
-
-  useEffect(() => {
-    localStorage.setItem('sf_api_key', apiKey);
-  }, [apiKey]);
 
   const [tokenStats, setTokenStats] = useState<{ used: number; remaining: number }>(() => {
     const saved = localStorage.getItem('sf_token_stats');
@@ -270,7 +265,6 @@ export default function App() {
         const response = await axios.post("/api/extract-invoice", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
-            "x-gemini-key": apiKey
           },
         });
 
@@ -677,17 +671,6 @@ ${rowsHTML || '        <tr><td colspan="' + cols.length + '" style="text-align: 
               >
                 Reset
               </button>
-            </div>
-
-            <div className="flex items-center gap-3 bg-slate-100 border border-slate-200 rounded-full px-3 py-1.5 max-w-xs md:max-w-md">
-              <Key className="w-4 h-4 text-blue-600 shrink-0" />
-              <input
-                type="password"
-                placeholder="Paste Gemini API Key..."
-                value={apiKey}
-                onChange={(e) => setApiKey(e.target.value)}
-                className="bg-transparent border-none text-xs text-slate-700 outline-none w-full"
-              />
             </div>
           </div>
         </div>
