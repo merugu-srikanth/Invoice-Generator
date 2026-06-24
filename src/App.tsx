@@ -788,7 +788,7 @@ ${rowsHTML || '        <tr><td colspan="' + cols.length + '" style="text-align: 
                 <button
                   onClick={processQueue}
                   disabled={isProcessing}
-                  className="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-xl flex items-center justify-center gap-2 text-sm"
+                  className="w-full mt-4 bg-orange-600 hover:bg-orange-700 text-white font-medium py-2 px-4 rounded-xl flex items-center justify-center gap-2 text-sm cursor-pointer shadow-md shadow-orange-500/10 hover:shadow-orange-500/20 transition-all"
                 >
                   <Sparkles className="w-4 h-4" />
                   Convert to Table Database
